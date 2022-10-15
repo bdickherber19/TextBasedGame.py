@@ -12,7 +12,8 @@ def moving_rooms(current_room, move, rooms):
     return current_room
 
 
-def get_item(current_room, rooms, inventory):
+# def get_item(current_room, rooms, inventory):
+def get_item(current_room, move, rooms, inventory):
     # add item to inventory and remove from room
     inventory.append(rooms[current_room]['item'])
     del rooms[current_room]['item']
@@ -21,15 +22,15 @@ def get_item(current_room, rooms, inventory):
 def main():
     # dictionary of rooms with items
     rooms = {
-        'Toy box': {'west': 'Main floor', 'item': 'Slink'},
-        'Main floor': {'north': 'Window', 'west': 'Under bed', 'south': 'Top drawer', 'east': 'Toy box'},
-        'Top drawer': {'north': 'Main floor', 'south': 'Under dresser', 'item': 'army men'},
-        'Under dresser': {'north': 'Top drawer', 'west': 'Closet', 'item': 'monkeys'},
-        'Closet': {'north': 'Under bed', 'south': 'Under dresser', 'item': 'shoe laces'},
-        'Under bed': {'north': 'Top of bed', 'east': 'Main floor', 'south': 'Closet', 'item': 'skateboard'},
-        'Top of bed': {'south': 'Under bed', 'west': 'Night stand', 'item': 'teddy'},
-        'Night stand': {'east': 'Top of bed', 'item': 'battery'},
-        'Window': {'south': 'Main floor', 'item': 'Cat'}
+        'Toy box': {'West': 'Main floor', 'item': 'Slink'},
+        'Main floor': {'North': 'Window', 'West': 'Under bed', 'South': 'Top drawer', 'East': 'Toy box'},
+        'Top drawer': {'North': 'Main floor', 'South': 'Under dresser', 'item': 'Army Men'},
+        'Under dresser': {'North': 'Top drawer', 'West': 'Closet', 'item': 'Monkeys'},
+        'Closet': {'North': 'Under bed', 'South': 'Under dresser', 'item': 'Shoe Laces'},
+        'Under bed': {'North': 'Top of bed', 'East': 'Main floor', 'South': 'Closet', 'item': 'Skateboard'},
+        'Top of bed': {'South': 'Under bed', 'West': 'Night stand', 'item': 'Teddy'},
+        'Night stand': {'East': 'Top of bed', 'item': 'Battery'},
+        'Window': {'South': 'Main floor', 'item': 'Cat'}
     }
 
     # list of inventory for gamer
@@ -61,15 +62,15 @@ def main():
         move = input('Next move?!: ').title().split()
 
         # commanding room movement
-        if len(move) >= 2 and move[0] in rooms[current_room].keys():
-            current_room = moving_rooms(current_room, move, rooms)
+        if len(move) >= 2 and move[1] in rooms[current_room].keys():
+            current_room = moving_rooms(current_room, move[1], rooms)
             continue
 
         # getting an item
         elif len(move[0]) == 3 and move[0] == 'Get' and ' '.join(move[1:]) in rooms[current_room]['item']:
-            print(f'You got {rooms[current_room]["item"]}')
+            print('You got {}'.format(rooms[current_room]['item']))
             print('----------------')
-            get_item(current_room, rooms, inventory)
+            get_item(current_room, move, rooms, inventory)
             continue
         # invalid commands
         else:
